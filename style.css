@@ -1,40 +1,130 @@
+/* ====== ESTILO GERAL ====== */
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background: #fff;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f7f7f9;
   color: #222;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* ====== TÍTULO ====== */
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 2em;
+  margin-bottom: 25px;
 }
 
-input[type="text"] {
+/* ====== CAMPO DE BUSCA ====== */
+#busca {
+  display: block;
   width: 100%;
   max-width: 400px;
-  display: block;
-  margin: 0 auto 20px auto;
-  padding: 8px;
+  margin: 0 auto 25px auto;
+  padding: 10px 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s ease;
+  font-size: 1em;
 }
 
+#busca:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+}
+
+/* ====== TABELA ====== */
 table {
   border-collapse: collapse;
   width: 100%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
-
+/* Cabeçalho */
 th {
-  background: #f0f0f0;
+  background: linear-gradient(90deg, #2c3e50, #34495e);
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  font-size: 0.95em;
+  letter-spacing: 0.5px;
 }
 
-tr:hover {
-  background: #f9f9f9;
+/* Linhas alternadas */
+td {
+  padding: 10px 12px;
+  font-size: 0.95em;
+  border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) td {
+  background: #f9fafc;
+}
+
+/* Hover com destaque */
+tr:hover td {
+  background: #eaf4ff;
+  transition: background 0.3s ease;
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.6em;
+  }
+
+  #busca {
+    max-width: 100%;
+  }
+
+  table {
+    font-size: 0.9em;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
+
+/* ====== ESTILO PARA CELULARES ====== */
+@media (max-width: 480px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    background: white;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    padding: 10px;
+  }
+
+  td {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #2c3e50;
+  }
 }
