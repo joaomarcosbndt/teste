@@ -19,13 +19,13 @@ h1 {
 
 @media (max-width: 480px) {
   h1 {
-    font-size: 1.4em; /* reduz para caber melhor na tela pequena */
+    font-size: 1.4em;
     margin-bottom: 20px;
     line-height: 1.3em;
   }
 }
 
-
+/* ====== MENSAGEM DE CARREGAMENTO ====== */
 #loading {
   text-align: center;
   font-weight: bold;
@@ -54,12 +54,11 @@ h1 {
 
 @media (max-width: 480px) {
   #busca {
-    max-width: 90%; /* ocupa quase toda a largura da tela */
+    max-width: 90%;
     font-size: 0.95em;
     padding: 10px 15px;
   }
 }
-
 
 /* ====== TABELA ====== */
 table {
@@ -99,7 +98,7 @@ tr:hover td {
   transition: background 0.3s ease;
 }
 
-/* ====== RESPONSIVIDADE ====== */
+/* ====== RESPONSIVIDADE (TABLETS E TELAS MÉDIAS) ====== */
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -126,6 +125,7 @@ tr:hover td {
 @media (max-width: 480px) {
   table, thead, tbody, th, td, tr {
     display: block;
+    width: 100%;
   }
 
   thead tr {
@@ -136,8 +136,8 @@ tr:hover td {
     background: white;
     margin-bottom: 15px;
     border-radius: 10px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-    padding: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    padding: 10px 12px;
   }
 
   td {
@@ -145,14 +145,27 @@ tr:hover td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 10px;
+    padding: 10px 0;
+    font-size: 0.95em;
+    border-bottom: 1px solid #eee;
   }
 
   td::before {
     content: attr(data-label);
-    font-weight: bold;
+    font-weight: 600;
     color: #2c3e50;
+    flex: 1;
+    text-align: left;
+  }
+
+  td span {
+    flex: 1;
+    text-align: right;
+    color: #333;
+    font-weight: 500;
+  }
+
+  tr:last-child td:last-child {
+    border-bottom: none;
   }
 }
-
-
