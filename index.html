@@ -2,10 +2,9 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Almoxarifado Instalações</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="imagens0/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <h1>Estoque de Materiais Beach Class</h1>
@@ -13,6 +12,7 @@
   <input type="text" id="busca" placeholder="Buscar material...">
 
   <p id="loading">Carregando tabela, por favor aguarde...</p>
+
 
   <table id="tabela"></table>
 
@@ -22,36 +22,20 @@
     fetch(url)
       .then(response => response.text())
       .then(text => {
-        const linhas = text.trim().split('\n').map(l => l.split(','));
+        const linhas = text.trim().split('\n');
         const tabela = document.getElementById('tabela');
-        const cabecalhos = linhas[0]; // primeira linha é o cabeçalho
 
-        // cria cabeçalho
-        const trCabecalho = document.createElement('tr');
-        cabecalhos.forEach(titulo => {
-          const th = document.createElement('th');
-          th.textContent = titulo;
-          trCabecalho.appendChild(th);
-        });
-        tabela.appendChild(trCabecalho);
-
-        // cria linhas de dados
-        for (let i = 1; i < linhas.length; i++) {
+        linhas.forEach((linha, i) => {
           const tr = document.createElement('tr');
-          linhas[i].forEach((cel, j) => {
-            const td = document.createElement('td');
-            td.setAttribute('data-label', cabecalhos[j]);
-            
-            // adiciona <span> para o CSS responsivo alinhar o texto
-            const span = document.createElement('span');
-            span.textContent = cel;
-            td.appendChild(span);
-            tr.appendChild(td);
+          linha.split(',').forEach(cel => {
+            const el = document.createElement(i === 0 ? 'th' : 'td');
+            el.textContent = cel;el.setAttribute('data-label', linhas[0].split(',')[linha.split(',').indexOf(cel)]);
+            tr.appendChild(el);
           });
           tabela.appendChild(tr);
-        }
+        });
 
-        // Esconde a mensagem de carregamento
+         // Esconder mensagem de loading
         document.getElementById('loading').style.display = 'none';
 
         // Campo de busca
@@ -59,7 +43,6 @@
         input.addEventListener('keyup', () => {
           const termo = input.value.toLowerCase();
           const linhasTabela = tabela.getElementsByTagName('tr');
-          
           for (let i = 1; i < linhasTabela.length; i++) { // ignora cabeçalho
             const celulas = linhasTabela[i].getElementsByTagName('td');
             let corresponde = false;
@@ -80,3 +63,7 @@
   </script>
 </body>
 </html>
+
+
+
+
