@@ -14,7 +14,17 @@ h1 {
   color: #2c3e50;
   font-size: 2em;
   margin-bottom: 25px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.4em; /* reduz para caber melhor na tela pequena */
+    margin-bottom: 20px;
+    line-height: 1.3em;
+  }
+}
+
 
 #loading {
   text-align: center;
@@ -28,18 +38,28 @@ h1 {
   width: 100%;
   max-width: 400px;
   margin: 0 auto 25px auto;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: 1px solid #ccc;
-  border-radius: 25px;
+  border-radius: 30px;
   outline: none;
   transition: all 0.3s ease;
   font-size: 1em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 #busca:focus {
   border-color: #3498db;
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
 }
+
+@media (max-width: 480px) {
+  #busca {
+    max-width: 90%; /* ocupa quase toda a largura da tela */
+    font-size: 0.95em;
+    padding: 10px 15px;
+  }
+}
+
 
 /* ====== TABELA ====== */
 table {
@@ -134,4 +154,5 @@ tr:hover td {
     color: #2c3e50;
   }
 }
+
 
