@@ -14,18 +14,8 @@ h1 {
   color: #2c3e50;
   font-size: 2em;
   margin-bottom: 25px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.4em;
-    margin-bottom: 20px;
-    line-height: 1.3em;
-  }
-}
-
-/* ====== MENSAGEM DE CARREGAMENTO ====== */
 #loading {
   text-align: center;
   font-weight: bold;
@@ -38,26 +28,17 @@ h1 {
   width: 100%;
   max-width: 400px;
   margin: 0 auto 25px auto;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border: 1px solid #ccc;
-  border-radius: 30px;
+  border-radius: 25px;
   outline: none;
   transition: all 0.3s ease;
   font-size: 1em;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 #busca:focus {
   border-color: #3498db;
-  box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
-}
-
-@media (max-width: 480px) {
-  #busca {
-    max-width: 90%;
-    font-size: 0.95em;
-    padding: 10px 15px;
-  }
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
 }
 
 /* ====== TABELA ====== */
@@ -98,7 +79,7 @@ tr:hover td {
   transition: background 0.3s ease;
 }
 
-/* ====== RESPONSIVIDADE (TABLETS E TELAS MÉDIAS) ====== */
+/* ====== RESPONSIVIDADE ====== */
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -125,7 +106,6 @@ tr:hover td {
 @media (max-width: 480px) {
   table, thead, tbody, th, td, tr {
     display: block;
-    width: 100%;
   }
 
   thead tr {
@@ -136,8 +116,8 @@ tr:hover td {
     background: white;
     margin-bottom: 15px;
     border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-    padding: 10px 12px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    padding: 10px;
   }
 
   td {
@@ -145,27 +125,12 @@ tr:hover td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    font-size: 0.95em;
-    border-bottom: 1px solid #eee;
+    padding: 8px 10px;
   }
 
   td::before {
     content: attr(data-label);
-    font-weight: 600;
+    font-weight: bold;
     color: #2c3e50;
-    flex: 1;
-    text-align: left;
-  }
-
-  td span {
-    flex: 1;
-    text-align: right;
-    color: #333;
-    font-weight: 500;
-  }
-
-  tr:last-child td:last-child {
-    border-bottom: none;
   }
 }
