@@ -25,7 +25,7 @@
           const tr = document.createElement('tr');
           linha.split(',').forEach(cel => {
             const el = document.createElement(i === 0 ? 'th' : 'td');
-            el.textContent = cel;
+            el.textContent = cel;el.setAttribute('data-label', linhas[0].split(',')[linha.split(',').indexOf(cel)]);
             tr.appendChild(el);
           });
           tabela.appendChild(tr);
@@ -56,3 +56,4 @@
   </script>
 </body>
 </html>
+
