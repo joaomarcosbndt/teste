@@ -1,41 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Planilha Convertida</title>
+  <meta charset="utf-8" />
+  <title>Planilha Convertida (CSV seguro)</title>
   <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
     table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background:#f3f3f3; text-align:left; }
   </style>
 </head>
 <body>
   <h1>Dados da Planilha</h1>
-  <table id="tabela"></table>
+  <div id="msg">Carregando...</div>
+  <table id="tabela" style="display:none"></table>
+
+  <!-- PapaParse (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" integrity="sha512-q6VwqC1j4k2Q2r3z8u8Z5q8gqz1a6r6z1s9G1n7YcJbK6YDp2+V6vH3u1M0Yz2mP2Y2yTq9xq3F8YwQ5L4zXg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script>
+    // URL CSV (substitua pela sua)
     const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRX30c_6AmyZbmTfPHwaAr1aNgzZ_qWk9EvoDLyOCcuRgUhMenT91yLPXMzNOYeJExosBal6yGhM0V0/pub?output=csv';
 
+    // Se você souber os nomes das colunas que quer mostrar, coloque-os aqui (recomendado).
+    // Exemplo: ['MATERIAIS', 'UNIDADE DE MEDIDA', 'QUANTIDADE GERAL']
+    const colunasDesejadas = null; // null -> pega as 3 primeiras colunas automaticamente
+
     fetch(url)
-      .then(response => response.text())
+      .then(r => {
+        if (!r.ok) throw new Error('Resposta não OK: ' + r.status);
+        return r.text();
+      })
       .then(text => {
-        const linhas = text.trim().split('\n');
+        // Parse seguro usando PapaParse
+        const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+        if (parsed.errors && parsed.errors.length) {
+          console.warn('Erros no parse:', parsed.errors);
+        }
+
         const tabela = document.getElementById('tabela');
-        linhas.forEach((linha, i) => {
-          const tr = document.createElement('tr');
-          linha.split(',').forEach(cel => {
-            const el = document.createElement(i === 0 ? 'th' : 'td');
-            el.textContent = cel;
-            tr.appendChild(el);
-          });
-          tabela.appendChild(tr);
+        const msg = document.getElementById('msg');
+
+        // Se header:true, parsed.meta.fields contém os nomes das colunas
+        let fields = parsed.meta && parsed.meta.fields ? parsed.meta.fields : null;
+
+        if (!fields || fields.length === 0) {
+          msg.textContent = 'CSV sem cabeçalho detectado.';
+          return;
+        }
+
+        // Se o usuário não forneceu colunasDesejadas, vamos usar as 3 primeiras colunas reais
+        let mostrar = [];
+        if (colunasDesejadas && Array.isArray(colunasDesejadas) && colunasDesejadas.length) {
+          // usa os nomes que existem no CSV (filtra os que não existem)
+          mostrar = colunasDesejadas.filter(c => fields.includes(c));
+          if (mostrar.length === 0) {
+            // fallback para 3 primeiras
+            mostrar = fields.slice(0, 3);
+          }
+        } else {
+          mostrar = fields.slice(0, 3);
+        }
+
+        // Monta cabeçalho
+        tabela.innerHTML = '';
+        const thead = document.createElement('thead');
+        const hrow = document.createElement('tr');
+        mostrar.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          hrow.appendChild(th);
         });
+        thead.appendChild(hrow);
+        tabela.appendChild(thead);
+
+        // Monta corpo
+        const tbody = document.createElement('tbody');
+        parsed.data.forEach(row => {
+          const tr = document.createElement('tr');
+          mostrar.forEach(col => {
+            const td = document.createElement('td');
+            // Se algum campo não existir no row, mostra vazio
+            td.textContent = (row[col] !== undefined && row[col] !== null) ? row[col] : '';
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        tabela.appendChild(tbody);
+
+        msg.style.display = 'none';
+        tabela.style.display = '';
       })
       .catch(err => {
         console.error('Erro ao carregar CSV:', err);
-        document.body.insertAdjacentHTML('beforeend', '<p>Falha ao carregar os dados.</p>');
+        document.getElementById('msg').textContent = 'Falha ao carregar os dados: ' + err.message;
       });
   </script>
 </body>
 </html>
-
