@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Planilha Convertida</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h1>Dados da Planilha</h1>
+  <table id="tabela"></table>
+
+  <script>
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR6ZPAc-a-INph8CEBP2ahG3xPU6yBqeEwprprfFj75IWo7NW4I-AVTd7hP14SddfDsRGqWeOHl2dzW/pub?output=csv';
+
+    fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        const linhas = text.trim().split('\n');
+        const tabela = document.getElementById('tabela');
+        linhas.forEach((linha, i) => {
+          const tr = document.createElement('tr');
+          linha.split(',').forEach(cel => {
+            const el = document.createElement(i === 0 ? 'th' : 'td');
+            el.textContent = cel;
+            tr.appendChild(el);
+          });
+          tabela.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao carregar CSV:', err);
+        document.body.insertAdjacentHTML('beforeend', '<p>Falha ao carregar os dados.</p>');
+      });
+  </script>
+</body>
+</html>
