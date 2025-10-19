@@ -2,15 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Planilha Convertida</title>
-  <style>
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
-  </style>
+  <title>Dados da Planilha</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Dados da Planilha</h1>
+
+  <input type="text" id="busca" placeholder="Buscar material...">
+
   <table id="tabela"></table>
 
   <script>
@@ -21,6 +20,7 @@
       .then(text => {
         const linhas = text.trim().split('\n');
         const tabela = document.getElementById('tabela');
+
         linhas.forEach((linha, i) => {
           const tr = document.createElement('tr');
           linha.split(',').forEach(cel => {
@@ -29,6 +29,24 @@
             tr.appendChild(el);
           });
           tabela.appendChild(tr);
+        });
+
+        // Campo de busca
+        const input = document.getElementById('busca');
+        input.addEventListener('keyup', () => {
+          const termo = input.value.toLowerCase();
+          const linhasTabela = tabela.getElementsByTagName('tr');
+          for (let i = 1; i < linhasTabela.length; i++) { // ignora cabeçalho
+            const celulas = linhasTabela[i].getElementsByTagName('td');
+            let corresponde = false;
+            for (let c = 0; c < celulas.length; c++) {
+              if (celulas[c].textContent.toLowerCase().includes(termo)) {
+                corresponde = true;
+                break;
+              }
+            }
+            linhasTabela[i].style.display = corresponde ? '' : 'none';
+          }
         });
       })
       .catch(err => {
