@@ -16,6 +16,12 @@ h1 {
   margin-bottom: 25px;
 }
 
+#loading {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 /* ====== CAMPO DE BUSCA ====== */
 #busca {
   display: block;
@@ -128,3 +134,4 @@ tr:hover td {
     color: #2c3e50;
   }
 }
+
